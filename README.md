@@ -14,7 +14,7 @@ under high-frequency updates.
 
 ## System Architecture
 - UI Layer: Qt Widgets for interface, QtCharts for real-time visualization
-- Data Layer: WebSocket for live price feed, REST API for initial/symbol data
+- Data Layer: WebSocket for live price feed, FinnHub API for initial/symbol data
 - Processing Layer: Background worker threads (QThread) for data handling,
   with signal-slot based communication for safe UI updates
 
@@ -23,7 +23,7 @@ under high-frequency updates.
 - Qt: event-driven architecture and UI framework
 - QtCharts: real-time financial chart rendering
 - WebSocket: continuous streaming of live market prices
-- REST API: fetching reference and initial market data
+- FinnHub API: fetching reference and initial market data
 - Multithreading (QThread): ensuring non-blocking UI under heavy data flow
 
 ## Performance & Responsiveness
@@ -35,7 +35,7 @@ under high-frequency updates.
 - Designing real-time, event-driven desktop applications
 - Qt event loop and signal-slot communication
 - Multithreading in C++ using QThread
-- Integrating WebSocket and REST APIs in Qt
+- Integrating WebSocket and FinnHub APIs in Qt
 - Building responsive UIs for high-frequency data systems
 
 ## Screenshots
