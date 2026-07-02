@@ -11,12 +11,16 @@ struct Position {
     double avgPrice;
 };
 
+// Same public interface as before (buy/sell/getCashBalance/getPositions),
+// but now backed by SQLite via DatabaseManager instead of pure in-memory
+// state. Pass the logged-in user's id so trades and balance persist across
+// restarts, per account.
 class PortfolioManager : public QObject {
     Q_OBJECT
 public:
-    explicit PortfolioManager(QObject *parent = nullptr);
-    
-    void setInitialCapital(double amount);
+    explicit PortfolioManager(int userId, QObject *parent = nullptr);
+
+    void setInitialCapital(double amount); // only used for accounts with no DB row yet
     double getCashBalance() const;
     double getUnrealizedPnL(const QMap<QString, double> &currentPrices) const;
     QMap<QString, Position> getPositions() const;
@@ -31,8 +35,12 @@ signals:
     void orderRejected(QString reason);
 
 private:
+    void loadFromDb();
+    void persistOrder(const QString &side, const QString &symbol, double price, double quantity);
+
+    int m_userId;
     double m_cashBalance;
-    QMap<QString, Position> m_positions; // Symbol -> Position
+    QMap<QString, Position> m_positions; // Symbol -> Position, mirrors `holdings` table
 };
 
 #endif // PORTFOLIOMANAGER_H

@@ -1,9 +1,18 @@
 #include <QApplication>
+#include <QMessageBox>
 #include "MainWindow.h"
+#include "DatabaseManager.h"
+#include "LoginDialog.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    if (!DatabaseManager::instance().init()) {
+        QMessageBox::critical(nullptr, "Database Error",
+            "Could not initialize the local trading_app.db database. The app cannot start.");
+        return 1;
+    }
     
     // Dark Theme Palette
     QPalette darkPalette;
@@ -23,9 +32,15 @@ int main(int argc, char *argv[])
     a.setPalette(darkPalette);
     a.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 
-    MainWindow w;
+    LoginDialog login;
+    if (login.exec() != QDialog::Accepted) {
+        return 0; // user closed the login window
+    }
+    UserSession session = *login.session();
+
+    MainWindow w(session.id);
     w.resize(1024, 768);
-    w.setWindowTitle("Qt C++ Real-time Trading App");
+    w.setWindowTitle("Qt C++ Real-time Trading App - " + session.username);
     w.show();
 
     return a.exec();

@@ -6,8 +6,8 @@
 #include <QMetaType>
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), m_isConnected(false)
+MainWindow::MainWindow(int userId, QWidget *parent)
+    : QMainWindow(parent), m_isConnected(false), m_userId(userId)
 {
     qRegisterMetaType<Tick>("Tick");
     qRegisterMetaType<Candle>("Candle");
@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupDockWidgets();
     
     m_networkClient = new NetworkClient(this);
-    m_portfolioManager = new PortfolioManager(this);
+    m_portfolioManager = new PortfolioManager(m_userId, this); // loads persisted cash/holdings for this account
     
     // Processor runs on a separate thread
     m_processor = new DataProcessor(); 

@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(int userId, QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -83,6 +83,7 @@ private:
     QDockWidget *m_dockPortfolio;
 
     bool m_isConnected;
+    int m_userId;
 };
 
 #endif // MAINWINDOW_H

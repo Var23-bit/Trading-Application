@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 COMPONENTS Widgets Charts Network WebSockets REQUIRED)
+find_package(Qt6 COMPONENTS Widgets Charts Network WebSockets Sql REQUIRED)
 
 set(PROJECT_SOURCES
     src/main.cpp
@@ -29,6 +29,12 @@ set(PROJECT_SOURCES
     src/OrderPanel.h
     src/PortfolioWidget.cpp
     src/PortfolioWidget.h
+    src/DatabaseManager.cpp
+    src/DatabaseManager.h
+    src/AuthManager.cpp
+    src/AuthManager.h
+    src/LoginDialog.cpp
+    src/LoginDialog.h
 )
 
 add_executable(TradingApp ${PROJECT_SOURCES})
@@ -38,6 +44,7 @@ target_link_libraries(TradingApp PRIVATE
     Qt6::Charts
     Qt6::Network
     Qt6::WebSockets
+    Qt6::Sql
 )
 
 if(WIN32)
